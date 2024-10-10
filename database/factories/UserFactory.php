@@ -1,44 +1,43 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
-class UserFactory extends Factory
+class Usuario extends Model
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
+    use HasFactory;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $table = 'usuarios';
+
+    protected $fillable = [
+        'TenantID',
+        'Nome',
+        'Email',
+    ];
+
+    // Relacionamento Muitos-para-Um com Tenant
+    public function tenant()
     {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
+        return $this->belongsTo(Tenant::class, 'TenantID');
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
+    // Relacionamento Um-para-Muitos com Ticket (como vendedor)
+    public function ticketsVendidos()
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->hasMany(Ticket::class, 'IDDoVendedor');
+    }
+
+    // Relacionamento Um-para-Muitos com Transação (como comprador)
+    public function transacoesCompradas()
+    {
+        return $this->hasMany(Transacao::class, 'IDDoComprador');
+    }
+
+    // Relacionamento Um-para-Um com PreferênciasDeNotificação
+    public function preferenciasNotificacao()
+    {
+        return $this->hasOne(PreferenciasDeNotificacao::class, 'UserID');
     }
 }
