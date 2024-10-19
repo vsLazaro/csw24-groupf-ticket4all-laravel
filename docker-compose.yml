@@ -4,12 +4,10 @@ services:
         restart: always
         ports:
             - "3000:8000"
-        volumes:
-            -   ./:/app
         environment:
             - TZ=America/Sao_Paulo
     mysql-service:
-        image: mysql:5.7
+        image: mysql
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
