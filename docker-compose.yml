@@ -1,0 +1,20 @@
+services:
+    laravel-service:
+        build: ./
+        restart: always
+        ports:
+            - "3000:8000"
+        volumes:
+            -   ./:/app
+        environment:
+            - TZ=America/Sao_Paulo
+    mysql-service:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: nikao
+            MYSQL_PASSWORD: laravel
+        volumes:
+            - ./mysql:/var/lib/mysql
