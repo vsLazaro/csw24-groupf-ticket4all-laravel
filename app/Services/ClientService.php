@@ -37,4 +37,46 @@ class ClientService
     {
         return $this->clientRepository->delete($id);
     }
+
+    /**
+     * Obter Avaliações do Vendedor
+     */
+    public function getSellerReviews($sellerId)
+    {
+        // Aqui você chamaria o método correspondente no repositório para obter as avaliações do vendedor
+        return $this->clientRepository->getSellerReviews($sellerId);
+    }
+
+    /**
+     * Avaliar Vendedor
+     */
+    public function rateSeller($sellerId, $data)
+    {
+        // Logica de verificação se o usuário pode avaliar o vendedor
+        $canRate = $this->clientRepository->canRateSeller($sellerId, $data['user_id']);
+        if ($canRate) {
+            // Envia a avaliação para o repositório
+            return $this->clientRepository->rateSeller($sellerId, $data);
+        }
+
+        return false;
+    }
+
+    /**
+     * Atualizar Preferências de Notificação
+     */
+    public function updateNotificationPreferences($preferences)
+    {
+        // Atualiza as preferências de notificação do usuário
+        return $this->clientRepository->updateNotificationPreferences($preferences);
+    }
+
+    /**
+     * Obter Preferências de Notificação
+     */
+    public function getNotificationPreferences()
+    {
+        // Obtém as preferências de notificação do usuário
+        return $this->clientRepository->getNotificationPreferences();
+    }
 }
