@@ -15,7 +15,30 @@ class ClientController extends Controller
     }
 
     /**
-     * Visualizar Avaliações do Vendedor
+     * @OA\Get(
+     *     path="/api/seller/{sellerId}/reviews",
+     *     summary="Visualizar Avaliações do Vendedor",
+     *     tags={"Seller Reviews"},
+     *     @OA\Parameter(
+     *         name="sellerId",
+     *         in="path",
+     *         description="ID do Vendedor",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Avaliações retornadas com sucesso",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Review")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhuma avaliação encontrada"
+     *     )
+     * )
      */
     public function showSellerReviews($sellerId)
     {
@@ -29,7 +52,38 @@ class ClientController extends Controller
     }
 
     /**
-     * Enviar Avaliação do Vendedor
+     * @OA\Post(
+     *     path="/api/seller/{sellerId}/rate",
+     *     summary="Enviar Avaliação do Vendedor",
+     *     tags={"Seller Reviews"},
+     *     @OA\Parameter(
+     *         name="sellerId",
+     *         in="path",
+     *         description="ID do Vendedor",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"rating", "comment"},
+     *             @OA\Property(property="rating", type="integer", description="Nota da avaliação"),
+     *             @OA\Property(property="comment", type="string", description="Comentário da avaliação")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Avaliação enviada com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="rating", ref="#/components/schemas/Review")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Você não pode avaliar este vendedor"
+     *     )
+     * )
      */
     public function rateSeller(Request $request, $sellerId)
     {
@@ -43,7 +97,26 @@ class ClientController extends Controller
     }
 
     /**
-     * Atualizar Preferências de Notificação
+     * @OA\Put(
+     *     path="/api/user/notification-preferences",
+     *     summary="Atualizar Preferências de Notificação",
+     *     tags={"Notification Preferences"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"preferences"},
+     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Preferências de notificação atualizadas com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="user", ref="#/components/schemas/User")
+     *         )
+     *     )
+     * )
      */
     public function updateNotificationPreferences(Request $request)
     {
@@ -53,7 +126,18 @@ class ClientController extends Controller
     }
 
     /**
-     * Exibir Preferências de Notificação
+     * @OA\Get(
+     *     path="/api/user/notification-preferences",
+     *     summary="Exibir Preferências de Notificação",
+     *     tags={"Notification Preferences"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Preferências de notificação retornadas com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
+     *         )
+     *     )
+     * )
      */
     public function getNotificationPreferences()
     {

@@ -15,7 +15,18 @@ class NotificationPreferenceController extends Controller
     }
 
     /**
-     * Exibir Preferências de Notificação do Usuário
+     * @OA\Get(
+     *     path="/api/notification-preferences",
+     *     summary="Exibir Preferências de Notificação do Usuário",
+     *     tags={"Notification Preferences"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Preferências de notificação do usuário",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
+     *         )
+     *     )
+     * )
      */
     public function show()
     {
@@ -24,7 +35,26 @@ class NotificationPreferenceController extends Controller
     }
 
     /**
-     * Atualizar Preferências de Notificação do Usuário
+     * @OA\Put(
+     *     path="/api/notification-preferences",
+     *     summary="Atualizar Preferências de Notificação do Usuário",
+     *     tags={"Notification Preferences"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"preferences"},
+     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação atualizadas")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Preferências de notificação atualizadas com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
+     *         )
+     *     )
+     * )
      */
     public function update(Request $request)
     {
