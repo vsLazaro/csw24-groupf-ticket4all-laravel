@@ -14,12 +14,6 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/users",
-     *     @OA\Response(response="200", description="An example endpoint")
-     * )
-     */
     public function index()
     {
         $users = $this->userService->getAllUsers();

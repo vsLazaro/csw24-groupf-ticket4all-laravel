@@ -20,7 +20,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('/event', 'store');
     Route::delete('/event/{id}', 'destroy');
     Route::get('/event/{id}', 'show');
-    Route::post('/event/{id}', 'update');
+    Route::put('/event/{id}', 'update');
 });
 
 Route::controller(TenantController::class)->group(function () {
@@ -28,7 +28,7 @@ Route::controller(TenantController::class)->group(function () {
     Route::get('/tenant/{id}', 'show');
     Route::delete('/tenant/{id}', 'destroy');
     Route::post('/tenant', 'store');
-    Route::post('/tenant/{id}', 'update');
+    Route::put('/tenant/{id}', 'update');
 });
 
 Route::controller(ClientController::class)->group(function () {
@@ -36,7 +36,7 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/client/{id}', 'show');
     Route::delete('/client/{id}', 'destroy');
     Route::post('/client', 'store');
-    Route::post('/client/{id}', 'update');
+    Route::put('/client/{id}', 'update');
 });
 
 Route::controller(TicketController::class)->group(function () {
@@ -44,7 +44,7 @@ Route::controller(TicketController::class)->group(function () {
     Route::get('/ticket/{id}', 'show');
     Route::delete('/ticket/{id}', 'destroy');
     Route::post('/ticket', 'store');
-    Route::post('/ticket/{id}', 'update');
+    Route::put('/ticket/{id}', 'update');
 });
 
 Route::controller(TransactionController::class)->group(function () {
@@ -52,7 +52,7 @@ Route::controller(TransactionController::class)->group(function () {
     Route::get('/transaction/{id}', 'show');
     Route::delete('/transaction/{id}', 'destroy');
     Route::post('/transaction', 'store');
-    Route::post('/transaction/{id}', 'update');
+    Route::put('/transaction/{id}', 'update');
 });
 
 Route::controller(NotificationPreferenceController::class)->group(function () {
@@ -60,5 +60,5 @@ Route::controller(NotificationPreferenceController::class)->group(function () {
     Route::get('/notification/{id}', 'show');
     Route::delete('/notification/{id}', 'destroy');
     Route::post('/notification', 'store');
-    Route::post('/notification/{id}', 'update');
+    Route::put('/notification/{id}', 'update');
 });
