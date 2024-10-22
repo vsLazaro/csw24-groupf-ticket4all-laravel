@@ -15,7 +15,19 @@ class EventController extends Controller
     }
 
     /**
-     * Exibir todos os eventos
+     * @OA\Get(
+     *     path="/api/events",
+     *     summary="Exibir todos os eventos",
+     *     tags={"Events"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de eventos",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Event")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -24,7 +36,28 @@ class EventController extends Controller
     }
 
     /**
-     * Adicionar um novo evento
+     * @OA\Post(
+     *     path="/api/events",
+     *     summary="Adicionar um novo evento",
+     *     tags={"Events"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "description", "date"},
+     *             @OA\Property(property="name", type="string", description="Nome do evento"),
+     *             @OA\Property(property="description", type="string", description="Descrição do evento"),
+     *             @OA\Property(property="date", type="string", format="date", description="Data do evento")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Evento criado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="event", ref="#/components/schemas/Event")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -33,7 +66,27 @@ class EventController extends Controller
     }
 
     /**
-     * Exibir um evento específico
+     * @OA\Get(
+     *     path="/api/events/{id}",
+     *     summary="Exibir um evento específico",
+     *     tags={"Events"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do evento",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Evento retornado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Event")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Evento não encontrado"
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -47,7 +100,39 @@ class EventController extends Controller
     }
 
     /**
-     * Editar um evento existente
+     * @OA\Put(
+     *     path="/api/events/{id}",
+     *     summary="Editar um evento existente",
+     *     tags={"Events"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do evento",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "description", "date"},
+     *             @OA\Property(property="name", type="string", description="Nome do evento"),
+     *             @OA\Property(property="description", type="string", description="Descrição do evento"),
+     *             @OA\Property(property="date", type="string", format="date", description="Data do evento")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Evento atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="event", ref="#/components/schemas/Event")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Evento não encontrado"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -61,7 +146,29 @@ class EventController extends Controller
     }
 
     /**
-     * Remover um evento
+     * @OA\Delete(
+     *     path="/api/events/{id}",
+     *     summary="Remover um evento",
+     *     tags={"Events"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do evento",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Evento removido com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Evento não encontrado"
+     *     )
+     * )
      */
     public function destroy($id)
     {

@@ -15,7 +15,19 @@ class TenantController extends Controller
     }
 
     /**
-     * Exibir todos os tenants
+     * @OA\Get(
+     *     path="/api/tenants",
+     *     summary="Exibir todos os tenants",
+     *     tags={"Tenants"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de tenants",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Tenant")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -24,7 +36,27 @@ class TenantController extends Controller
     }
 
     /**
-     * Exibir um tenant específico
+     * @OA\Get(
+     *     path="/api/tenants/{id}",
+     *     summary="Exibir um tenant específico",
+     *     tags={"Tenants"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do tenant",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tenant retornado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Tenant")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tenant não encontrado"
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -38,7 +70,27 @@ class TenantController extends Controller
     }
 
     /**
-     * Criar um novo tenant
+     * @OA\Post(
+     *     path="/api/tenants",
+     *     summary="Criar um novo tenant",
+     *     tags={"Tenants"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "contact_info"},
+     *             @OA\Property(property="name", type="string", description="Nome do tenant"),
+     *             @OA\Property(property="contact_info", type="string", description="Informações de contato do tenant")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Tenant criado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="tenant", ref="#/components/schemas/Tenant")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -47,7 +99,37 @@ class TenantController extends Controller
     }
 
     /**
-     * Atualizar um tenant existente
+     * @OA\Put(
+     *     path="/api/tenants/{id}",
+     *     summary="Atualizar um tenant existente",
+     *     tags={"Tenants"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do tenant",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", description="Nome do tenant"),
+     *             @OA\Property(property="contact_info", type="string", description="Informações de contato do tenant")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tenant atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="tenant", ref="#/components/schemas/Tenant")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tenant não encontrado"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -61,7 +143,29 @@ class TenantController extends Controller
     }
 
     /**
-     * Remover um tenant
+     * @OA\Delete(
+     *     path="/api/tenants/{id}",
+     *     summary="Remover um tenant",
+     *     tags={"Tenants"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do tenant",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tenant removido com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tenant não encontrado"
+     *     )
+     * )
      */
     public function destroy($id)
     {
