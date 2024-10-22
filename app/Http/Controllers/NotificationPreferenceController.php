@@ -17,20 +17,24 @@ class NotificationPreferenceController extends Controller
     /**
      * @OA\Get(
      *     path="/api/notifications",
-     *     summary="Retorna os dados de preferencia de notificação",
-     *     description="Retorna todos as preferencias de notificação",
+     *     summary="Retorna os dados de preferências de notificação",
+     *     description="Retorna todas as preferências de notificação",
      *     tags={"Preferencias de notificação"},
      *     @OA\Response(
      *         response=200,
-     *         description="Array contendo os dados das preferencias de notificação",
+     *         description="Array contendo os dados das preferências de notificação",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
      *                 type="object",
+     *                 @OA\Property(property="notification_preference_id", type="integer", example=1),
      *                 @OA\Property(property="client_id", type="integer", example=1),
      *                 @OA\Property(property="receive_email", type="boolean", example=true),
-     *         ),
-     *     ),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             )
+     *         )
+     *     )
      * )
      */
     public function index()
@@ -60,8 +64,11 @@ class NotificationPreferenceController extends Controller
      *         description="Objeto contendo os dados do domínio e mapeamentos vinculados",
      *         @OA\JsonContent(
      *             type="object",
+     *             @OA\Property(property="notification_preference_id", type="integer", example=1),
      *             @OA\Property(property="client_id", type="integer", example=1),
      *             @OA\Property(property="receive_email", type="boolean", example=true),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *         ),
      *     ),
      * )
@@ -96,8 +103,11 @@ class NotificationPreferenceController extends Controller
      *        description="Preferencia de notificação registrada com sucesso",
      *        @OA\JsonContent(
      *            type="object",
+     *            @OA\Property(property="notification_preference_id", type="integer", example=1),
      *            @OA\Property(property="client_id", type="integer", example=1),
      *            @OA\Property(property="receive_email", type="boolean", example=true),
+     *            @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *            @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *        ),
      *    ),
      * )
@@ -129,6 +139,8 @@ class NotificationPreferenceController extends Controller
      *             type="object",
      *             @OA\Property(property="client_id", type="integer", example=1),
      *             @OA\Property(property="receive_email", type="boolean", example=true),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *         )
      *     ),
      *     @OA\Response(
@@ -136,8 +148,11 @@ class NotificationPreferenceController extends Controller
      *         description="Objeto contendo os dados do domínio e mapeamentos vinculados",
      *         @OA\JsonContent(
      *             type="object",
+     *             @OA\Property(property="notification_preference_id", type="integer", example=1),
      *             @OA\Property(property="client_id", type="integer", example=1),
      *             @OA\Property(property="receive_email", type="boolean", example=true),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *         ),
      *     ),
      *     @OA\Response(

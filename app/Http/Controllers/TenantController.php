@@ -28,8 +28,12 @@ class TenantController extends Controller
      *             @OA\Items(
      *                 type="object",
      *                 @OA\Property(property="tenant_id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Bruno Bolzan"),
      *                 @OA\Property(property="contact_information", type="string", example="algo"),
      *                 @OA\Property(property="specific_information", type="string", example="algo"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             )
      *         ),
      *     ),
      * )
@@ -62,8 +66,11 @@ class TenantController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="tenant_id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Bruno Bolzan"),
      *             @OA\Property(property="contact_information", type="string", example="algo"),
      *             @OA\Property(property="specific_information", type="string", example="algo"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *         ),
      *     ),
      * )
@@ -89,9 +96,9 @@ class TenantController extends Controller
      *        required=true,
      *        @OA\JsonContent(
      *                type="object",
-     *                  @OA\Property(property="name", type="string", example="Bruno Bolzan"),
-     *                  @OA\Property(property="contact_information", type="string", example="algo"),
-     *                  @OA\Property(property="specific_information", type="string", example="algo"),
+     *                 @OA\Property(property="name", type="string", example="Bruno Bolzan"),
+     *                 @OA\Property(property="contact_information", type="string", example="algo"),
+     *                 @OA\Property(property="specific_information", type="string", example="algo")
      *            )
      *        ),
      *    @OA\Response(
@@ -100,8 +107,11 @@ class TenantController extends Controller
      *        @OA\JsonContent(
      *            type="object",
      *            @OA\Property(property="tenant_id", type="integer", example=1),
+     *            @OA\Property(property="name", type="string", example="Bruno Bolzan"),
      *            @OA\Property(property="contact_information", type="string", example="algo"),
      *            @OA\Property(property="specific_information", type="string", example="algo"),
+     *            @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *            @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *        ),
      *    ),
      * )
@@ -116,7 +126,7 @@ class TenantController extends Controller
      * @OA\Put(
      *     path="/api/tenant/{id}",
      *     summary="Atualiza os dados do tenant",
-     *     description="Atualiza os dados do tenant",",
+     *     description="Atualiza os dados do tenant",
      *     tags={"Tenants"},
      *     @OA\Parameter(
      *         name="id",
@@ -142,8 +152,11 @@ class TenantController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="tenant_id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Bruno Bolzan"),
      *             @OA\Property(property="contact_information", type="string", example="algo"),
      *             @OA\Property(property="specific_information", type="string", example="algo"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-22T15:37:29.000000Z"),
      *         ),
      *     ),
      *     @OA\Response(
