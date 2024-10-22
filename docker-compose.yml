@@ -6,13 +6,20 @@ services:
             - "3000:8000"
         environment:
             - TZ=America/Sao_Paulo
+            - DB_HOST=mysql-service 
+            - DB_PORT=3306
+            - DB_USERNAME=ticketforall
+            - DB_DATABASE=laravel
+            - LARAVEL_DATABASE_PASSWORD=laravel
+        volumes:
+            - ./:/app
     mysql-service:
         image: mysql
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: laravel
-            MYSQL_USER: nikao
+            MYSQL_USER: ticketforall
             MYSQL_PASSWORD: laravel
         volumes:
             - ./mysql:/var/lib/mysql

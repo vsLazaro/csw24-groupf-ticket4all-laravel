@@ -22,9 +22,11 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        'event_name',
+        'type',
         'tenant_id',
+        'location',
+        'event_date'
     ];
 
     public function tenant()

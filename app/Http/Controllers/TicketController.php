@@ -14,143 +14,85 @@ class TicketController extends Controller
         $this->ticketService = $ticketService;
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/tickets/purchase",
-     *     summary="Comprar Ingresso",
-     *     tags={"Tickets"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"ticket_id"},
-     *             @OA\Property(property="ticket_id", type="integer", description="ID do ingresso a ser comprado")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Compra realizada com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="ticket", ref="#/components/schemas/Ticket")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Erro ao processar pagamento"
-     *     )
-     * )
-     */
-    public function purchaseTicket(Request $request)
+    public function index()
     {
-        $ticket = $this->ticketService->purchaseTicket($request->input('ticket_id'));
+        // Lista todos os clientes
+        $clients = $this->ticketService->getAllTickets();
+        return response()->json($clients);
+    }
 
-        if ($ticket) {
-            return response()->json(['message' => 'Compra realizada com sucesso!', 'ticket' => $ticket], 200);
+    public function store(Request $request)
+    {
+        // Cria um novo cliente
+        $client = $this->ticketService->createTicket($request->all());
+
+        return response()->json($client, 201);
+    }
+
+    public function show($id)
+    {
+        // Mostra um cliente específico
+        $client = $this->ticketService->getTicketById($id);
+        return response()->json($client);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+
+        // Atualiza o cliente
+        $client = $this->ticketService->updateTicket($id, $request->all());
+
+        return response()->json($client);
+    }
+
+    public function destroy($id)
+    {
+        $deleted = $this->ticketService->deleteTicket($id);
+
+        if (!$deleted) {
+            return response()->json(['message' => 'Cliente não encontrado.'], 404);
         }
 
-        return response()->json(['message' => 'Erro ao processar pagamento.'], 500);
+        return response()->json(['message' => 'Cliente deletado com sucesso!']);
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/tickets/list-for-sale",
-     *     summary="Listar Ingresso para Venda",
-     *     tags={"Tickets"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"ticket_id", "price"},
-     *             @OA\Property(property="ticket_id", type="integer", description="ID do ingresso a ser listado para venda"),
-     *             @OA\Property(property="price", type="number", format="float", description="Preço de venda do ingresso")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Ingresso listado para venda com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="ticket", ref="#/components/schemas/Ticket")
-     *         )
-     *     )
-     * )
-     */
-    public function listTicketForSale(Request $request)
-    {
-        $ticket = $this->ticketService->listTicketForSale($request->all());
-        return response()->json(['message' => 'Ingresso listado para venda com sucesso!', 'ticket' => $ticket], 201);
-    }
+    // public function purchaseTicket(Request $request)
+    // {
+    //     $ticket = $this->ticketService->purchaseTicket($request->input('ticket_id'));
 
-    /**
-     * @OA\Get(
-     *     path="/api/tickets/{ticketId}/validate",
-     *     summary="Validar Ingresso no Evento",
-     *     tags={"Tickets"},
-     *     @OA\Parameter(
-     *         name="ticketId",
-     *         in="path",
-     *         description="ID do ingresso a ser validado",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Ingresso válido",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="ticket", ref="#/components/schemas/Ticket")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Ingresso inválido ou já utilizado"
-     *     )
-     * )
-     */
-    public function validateTicket($ticketId)
-    {
-        $ticket = $this->ticketService->validateTicket($ticketId);
+    //     if ($ticket) {
+    //         return response()->json(['message' => 'Compra realizada com sucesso!', 'ticket' => $ticket], 200);
+    //     }
 
-        if ($ticket) {
-            return response()->json(['message' => 'Ingresso válido!', 'ticket' => $ticket], 200);
-        }
+    //     return response()->json(['message' => 'Erro ao processar pagamento.'], 500);
+    // }
 
-        return response()->json(['message' => 'Ingresso inválido ou já utilizado.'], 400);
-    }
+    // public function listTicketForSale(Request $request)
+    // {
+    //     $ticket = $this->ticketService->listTicketForSale($request->all());
+    //     return response()->json(['message' => 'Ingresso listado para venda com sucesso!', 'ticket' => $ticket], 201);
+    // }
 
-    /**
-     * @OA\Post(
-     *     path="/api/tickets/{ticketId}/refund",
-     *     summary="Solicitar Reembolso de Ingresso",
-     *     tags={"Tickets"},
-     *     @OA\Parameter(
-     *         name="ticketId",
-     *         in="path",
-     *         description="ID do ingresso para o qual o reembolso será solicitado",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Reembolso solicitado com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="ticket", ref="#/components/schemas/Ticket")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=403,
-     *         description="Reembolso não disponível para este ingresso"
-     *     )
-     * )
-     */
-    public function requestRefund($ticketId)
-    {
-        $ticket = $this->ticketService->requestRefund($ticketId);
+    // public function validateTicket($ticketId)
+    // {
+    //     $ticket = $this->ticketService->validateTicket($ticketId);
 
-        if ($ticket) {
-            return response()->json(['message' => 'Reembolso solicitado com sucesso!', 'ticket' => $ticket], 200);
-        }
+    //     if ($ticket) {
+    //         return response()->json(['message' => 'Ingresso válido!', 'ticket' => $ticket], 200);
+    //     }
 
-        return response()->json(['message' => 'Reembolso não disponível para este ingresso.'], 403);
-    }
+    //     return response()->json(['message' => 'Ingresso inválido ou já utilizado.'], 400);
+    // }
+
+    // public function requestRefund($ticketId)
+    // {
+    //     $ticket = $this->ticketService->requestRefund($ticketId);
+
+    //     if ($ticket) {
+    //         return response()->json(['message' => 'Reembolso solicitado com sucesso!', 'ticket' => $ticket], 200);
+    //     }
+
+    //     return response()->json(['message' => 'Reembolso não disponível para este ingresso.'], 403);
+    // }
 }

@@ -14,51 +14,49 @@ class NotificationPreferenceController extends Controller
         $this->notificationPreferenceService = $notificationPreferenceService;
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/notification-preferences",
-     *     summary="Exibir Preferências de Notificação do Usuário",
-     *     tags={"Notification Preferences"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Preferências de notificação do usuário",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
-     *         )
-     *     )
-     * )
-     */
-    public function show()
+    
+    public function index()
     {
-        $preferences = $this->notificationPreferenceService->getPreferences();
-        return response()->json(['preferences' => $preferences], 200);
+        $notifications = $this->notificationPreferenceService->getAllNotificationPreferences();
+        return response()->json($notifications, 200);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/notification-preferences",
-     *     summary="Atualizar Preferências de Notificação do Usuário",
-     *     tags={"Notification Preferences"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"preferences"},
-     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação atualizadas")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Preferências de notificação atualizadas com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="preferences", type="object", description="Preferências de notificação")
-     *         )
-     *     )
-     * )
-     */
-    public function update(Request $request)
+    public function show($id)
     {
-        $preferences = $this->notificationPreferenceService->updatePreferences($request->input('preferences'));
-        return response()->json(['message' => 'Preferências de notificação atualizadas com sucesso!', 'preferences' => $preferences], 200);
+        $notification = $this->notificationPreferenceService->getNotificationPreferenceById($id);
+
+        if (!$notification) {
+            return response()->json(['message' => 'Preferencia de notificação não encontrada.'], 404);
+        }
+
+        return response()->json($notification, 200);
+    }
+
+    public function store(Request $request)
+    {
+        $notification = $this->notificationPreferenceService->createNotificationPreference($request->all());
+        return response()->json($notification, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $notification = $this->notificationPreferenceService->updateNotificationPreference($id, $request->all());
+
+        if (!$notification) {
+            return response()->json(['message' => 'Preferencia de notificação não encontrada.'], 404);
+        }
+
+        return response()->json($notification, 200);
+    }
+
+    public function destroy($id)
+    {
+        $deleted = $this->notificationPreferenceService->deleteNotificationPreference($id);
+
+        if (!$deleted) {
+            return response()->json(['message' => 'Preferencia de notificação não encontrada.'], 404);
+        }
+
+        return response()->json(['message' => 'Preferencia de notificação removida com sucesso!'], 200);
     }
 }

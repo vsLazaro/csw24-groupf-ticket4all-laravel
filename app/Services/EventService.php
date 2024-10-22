@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Repositories\EventRepository;
+use App\Repositories\EventRepositoryImpl;
 
 class EventService
 {
     protected $eventRepository;
 
-    public function __construct(EventRepository $eventRepository)
+    public function __construct(EventRepositoryImpl $eventRepository)
     {
         $this->eventRepository = $eventRepository;
     }

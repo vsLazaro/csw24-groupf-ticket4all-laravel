@@ -17,16 +17,7 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/users",
-     *     summary="Listar todos os usuários",
-     *     tags={"Users"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de usuários",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/User")
-     *         )
-     *     )
+     *     @OA\Response(response="200", description="An example endpoint")
      * )
      */
     public function index()
@@ -35,29 +26,6 @@ class UserController extends Controller
         return response()->json($users, 200);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/users/{id}",
-     *     summary="Exibir um usuário específico",
-     *     tags={"Users"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID do usuário",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Usuário retornado com sucesso",
-     *         @OA\JsonContent(ref="#/components/schemas/User")
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Usuário não encontrado"
-     *     )
-     * )
-     */
     public function show($id)
     {
         $user = $this->userService->getUserById($id);
@@ -69,30 +37,6 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/users",
-     *     summary="Criar um novo usuário",
-     *     tags={"Users"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password"},
-     *             @OA\Property(property="name", type="string", description="Nome do usuário"),
-     *             @OA\Property(property="email", type="string", description="Email do usuário"),
-     *             @OA\Property(property="password", type="string", description="Senha do usuário")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Usuário criado com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="user", ref="#/components/schemas/User")
-     *         )
-     *     )
-     * )
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -106,40 +50,6 @@ class UserController extends Controller
         return response()->json(['message' => 'Usuário criado com sucesso!', 'user' => $user], 201);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/users/{id}",
-     *     summary="Atualizar um usuário existente",
-     *     tags={"Users"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID do usuário",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", description="Nome do usuário"),
-     *             @OA\Property(property="email", type="string", description="Email do usuário"),
-     *             @OA\Property(property="password", type="string", description="Senha do usuário")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Usuário atualizado com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string"),
-     *             @OA\Property(property="user", ref="#/components/schemas/User")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Usuário não encontrado"
-     *     )
-     * )
-     */
     public function update(Request $request, $id)
     {
         $data = $request->validate([
@@ -157,31 +67,6 @@ class UserController extends Controller
         return response()->json(['message' => 'Usuário atualizado com sucesso!', 'user' => $user], 200);
     }
 
-    /**
-     * @OA\Delete(
-     *     path="/api/users/{id}",
-     *     summary="Excluir um usuário",
-     *     tags={"Users"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID do usuário",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Usuário excluído com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Usuário não encontrado ou não foi possível excluir"
-     *     )
-     * )
-     */
     public function destroy($id)
     {
         $deleted = $this->userService->deleteUser($id);

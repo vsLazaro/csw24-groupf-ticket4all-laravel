@@ -14,7 +14,7 @@ class NotificationPreference extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'tenant_id';
+    protected $primaryKey = 'notification_preference_id';
 
     /**
      * The attributes that are mass assignable.
@@ -22,8 +22,7 @@ class NotificationPreference extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'user_id',
+        'client_id',
         'receive_email',
     ];
 
