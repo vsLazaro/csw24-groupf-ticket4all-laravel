@@ -13,17 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Build docker
         run: |
-          composer install 
+          docker compose up -d --build 
 
-      - name: Generate key
+      - name: Docker bash
         run: |
-          php artisan key:generate
+          docker exec -it mysql-container bash
 
-      - name: Generate Swagger
+      - name: Generate Migrations
         run: |
-          php artisan l5-swagger:generate
+          php artisan migrate 
+
+      - name: Exit Bash
+        run: |
+          exit 
 
       # Descomentar quando houver testes
       # - name: Run tests
@@ -36,6 +40,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
       - name: Deploy to AWS Lambda using SAM

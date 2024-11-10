@@ -1,5 +1,6 @@
 services:
     laravel-service:
+        container_name: laravel-container
         build: ./
         restart: always
         ports:
@@ -14,6 +15,7 @@ services:
         volumes:
             - ./:/app
     mysql-service:
+        container_name: mysql-container
         image: mysql
         restart: always
         environment:
