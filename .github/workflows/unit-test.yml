@@ -10,6 +10,4 @@ jobs:
     - uses: php-actions/composer@v6
       with:
         working_dir: ./api
-    - uses: php-actions/phpunit@v3
-      with:
-        working_dir: ./api
+    - run: ./api/vendor/bin/phpunit
