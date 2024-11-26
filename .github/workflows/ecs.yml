@@ -9,6 +9,12 @@ permissions:
   contents: read
 
 jobs:
+  unit-tests:
+      - name: PHPUnit tests
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: "/api/phpunit.xml"
+          memory_limit: "256M"
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
